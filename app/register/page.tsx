@@ -10,9 +10,11 @@ export default function Page() {
     const completaEndereco = useRef<HTMLInputElement>(null);
 
     async function handleCepBlur() {
+        
         const cep = completaEndereco.current?.value.replace(/\D/g, "");
 
-        if (cep.length !== 8) return;
+        
+        if (!cep || cep.length !== 8) return;
 
         try {
             const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
