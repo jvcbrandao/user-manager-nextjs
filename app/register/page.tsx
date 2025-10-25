@@ -10,10 +10,10 @@ export default function Page() {
     const completaEndereco = useRef<HTMLInputElement>(null);
 
     async function handleCepBlur() {
-        
+
         const cep = completaEndereco.current?.value.replace(/\D/g, "");
 
-        
+
         if (!cep || cep.length !== 8) return;
 
         try {
@@ -74,7 +74,7 @@ export default function Page() {
     };
 
     return (
-        <div className="bg-white flex justify-center items-center min-h-screen">
+        <div className="bg-white flex justify-center items-center min-h-screen flex-col">
             <form
                 onSubmit={handleSubmit}
                 className="rounded-lg bg-[#f9f6f2] gap-4 text-black flex flex-col w-[400px] p-6"
@@ -142,6 +142,12 @@ export default function Page() {
                     Enviar
                 </button>
             </form>
+            <p className="text-center text-sm text-gray-500 mt-2">
+                Já tem uma conta?{" "}
+                <a href="/login" className="text-blue-600 hover:underline">
+                    Login
+                </a>
+            </p>
         </div>
     );
 }
