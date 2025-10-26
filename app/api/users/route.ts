@@ -65,6 +65,7 @@ export async function GET() {
         role: true,
         city: true,
         state: true,
+        cep: true,
       },
     });
 
