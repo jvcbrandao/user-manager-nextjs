@@ -118,7 +118,7 @@ Acesse: **http://localhost:3000**
 | Tipo de usuário | Email | Senha |
 |------------------|--------|--------|
 | **Administrador** | admin@example.com | Admin@123 |
-| **Usuário comum** | aleatório | Senha123 |
+| **Usuário comum** | Ex.: rafael.cardoso0@example.com | Senha123 |
 
 ---
 
