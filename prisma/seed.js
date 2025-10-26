@@ -1,94 +1,80 @@
-// prisma/seed.js
-const { PrismaClient } = require('@prisma/client');
-const bcrypt = require('bcryptjs');
+const { PrismaClient } = require('@prisma/client')
+const bcrypt = require('bcryptjs')
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 async function main() {
-  console.log('Iniciando seed...');
+  console.log('🌱 Iniciando seed...')
 
-  // Usuários a serem criados
-  const usersData = [
-    {
-      name: 'Admin Master',
-      email: 'admin@example.com',
-      password: 'Admin@123',
-      cep: '01001-000',
-      state: 'SP',
-      city: 'São Paulo',
-      role: 'ADMIN',
-    },
-    {
-      name: 'Carlos Souza',
-      email: 'carlos@example.com',
-      password: 'Senha123',
-      cep: '20000-000',
-      state: 'RJ',
-      city: 'Rio de Janeiro',
-    },
-    {
-      name: 'Mariana Lima',
-      email: 'mariana@example.com',
-      password: 'Senha123',
-      cep: '30100-000',
-      state: 'MG',
-      city: 'Belo Horizonte',
-    },
-    {
-      name: 'Pedro Santos',
-      email: 'pedro@example.com',
-      password: 'Senha123',
-      cep: '40000-000',
-      state: 'BA',
-      city: 'Salvador',
-    },
-    {
-      name: 'Aline Pereira',
-      email: 'aline@example.com',
-      password: 'Senha123',
-      cep: '60000-000',
-      state: 'CE',
-      city: 'Fortaleza',
-    },
-    {
-      name: 'Rafael Costa',
-      email: 'rafael@example.com',
-      password: 'Senha123',
-      cep: '70000-000',
-      state: 'DF',
-      city: 'Brasília',
-    },
-  ];
-
-  // Remove todos os usuários antes (opcional em dev)
-  await prisma.user.deleteMany();
-  console.log('Tabela User limpa.');
-
-  // Cria os usuários com senha hasheada
-  for (const user of usersData) {
-    const hashedPassword = await bcrypt.hash(user.password, 10);
-    await prisma.user.create({
-      data: {
-        name: user.name,
-        email: user.email,
-        password: hashedPassword,
-        cep: user.cep,
-        state: user.state,
-        city: user.city,
-        role: user.role || 'USER',
-      },
-    });
-    console.log(`Usuário criado: ${user.email}`);
+  // --- ADMIN FIXO ---
+  const adminData = {
+    name: 'Admin Master',
+    email: 'admin@example.com',
+    password: await bcrypt.hash('Admin@123', 10),
+    cep: '01001-000',
+    state: 'SP',
+    city: 'São Paulo',
+    role: 'ADMIN',
   }
 
-  console.log('✅ Seed concluído com sucesso.');
+  // --- NOMES E CIDADES BASE ---
+  const firstNames = ['Carlos', 'Mariana', 'Pedro', 'Aline', 'Rafael', 'Julia', 'Lucas', 'Fernanda', 'Diego', 'Beatriz', 'Gustavo', 'Larissa', 'Thiago', 'Camila', 'João', 'Patrícia']
+  const lastNames = ['Silva', 'Souza', 'Oliveira', 'Pereira', 'Costa', 'Santos', 'Lima', 'Gomes', 'Barros', 'Almeida', 'Ribeiro', 'Cardoso']
+  const states = [
+    { state: 'SP', city: 'São Paulo', cep: '01001-000' },
+    { state: 'RJ', city: 'Rio de Janeiro', cep: '20000-000' },
+    { state: 'MG', city: 'Belo Horizonte', cep: '30100-000' },
+    { state: 'BA', city: 'Salvador', cep: '40000-000' },
+    { state: 'RS', city: 'Porto Alegre', cep: '90000-000' },
+    { state: 'PR', city: 'Curitiba', cep: '80000-000' },
+    { state: 'CE', city: 'Fortaleza', cep: '60000-000' },
+    { state: 'DF', city: 'Brasília', cep: '70000-000' },
+  ]
+
+  // --- GERADOR DE USUÁRIOS ---
+  const randomUsers = Array.from({ length: 30 }).map((_, i) => {
+    const first = firstNames[Math.floor(Math.random() * firstNames.length)]
+    const last = lastNames[Math.floor(Math.random() * lastNames.length)]
+    const loc = states[Math.floor(Math.random() * states.length)]
+    const email = `${first.toLowerCase()}.${last.toLowerCase()}${i}@example.com`
+    const password = 'Senha123'
+
+    return {
+      name: `${first} ${last}`,
+      email,
+      password,
+      cep: loc.cep,
+      state: loc.state,
+      city: loc.city,
+      role: 'USER',
+    }
+  })
+
+  // --- LIMPA TABELA (somente em dev!) ---
+  await prisma.user.deleteMany()
+  console.log('🧹 Tabela User limpa.')
+
+  // --- CRIA ADMIN ---
+  await prisma.user.create({ data: adminData })
+  console.log(`👑 Admin criado: ${adminData.email}`)
+
+  // --- CRIA USUÁRIOS COM SENHA HASHED ---
+  for (const user of randomUsers) {
+    const hashedPassword = await bcrypt.hash(user.password, 10)
+    await prisma.user.create({
+      data: { ...user, password: hashedPassword },
+    })
+  }
+
+  console.log(`✅ ${randomUsers.length} usuários criados com sucesso.`)
+  console.log('🌾 Seed concluído!')
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Erro no seed:', e);
-    process.exit(1);
+    console.error('❌ Erro no seed:', e)
+    process.exit(1)
   })
   .finally(async () => {
-    await prisma.$disconnect();
-  });
+    await prisma.$disconnect()
+  })

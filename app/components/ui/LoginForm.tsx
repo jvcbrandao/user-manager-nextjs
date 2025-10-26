@@ -16,7 +16,7 @@ export default function LoginForm() {
     const result = await signIn("credentials", {
       email,
       password,
-      redirect: false // ✅ impede redirecionamento automático
+      redirect: false
     });
 
     if (result?.error) {
@@ -24,7 +24,6 @@ export default function LoginForm() {
       return;
     }
 
-    // ✅ pega a session com a role após o login
     const session = await fetch("/api/auth/session").then(res => res.json());
 
     if (session?.user?.role === "ADMIN") {

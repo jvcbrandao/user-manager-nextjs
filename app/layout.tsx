@@ -5,12 +5,16 @@ import Providers from './providers'
 
 const inter = Inter({
   subsets: ['latin'],
-  display: 'swap', // Adicione isso para melhor performance
+  display: 'swap',
 })
 
+
 export const metadata: Metadata = {
-  title: 'Seu App',
+  title: 'Gerenciamento de usuários',
   description: 'Sistema de login',
+  icons: {
+    icon: '/favicon.ico', // ou /favicon.png
+  },
 }
 
 export default function RootLayout({
