@@ -14,7 +14,7 @@ export default function Providers({
   }, [])
 
   if (!mounted) {
-    return <>{children}</> // Retorna children sem SessionProvider durante SSR
+    return <>{children}</>
   }
 
   return (

@@ -131,7 +131,6 @@ export default function AdminDashboard() {
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-6xl mx-auto">
-                {/* Header com título e botão de sair */}
                 <div className="flex justify-between items-center mb-8">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-800 mb-2">Painel Administrativo</h1>
@@ -230,8 +229,8 @@ export default function AdminDashboard() {
                                             </select>
                                         ) : (
                                             <span className={`px-2 py-1 text-xs rounded ${user.role === 'ADMIN'
-                                                    ? 'bg-blue-100 text-blue-800'
-                                                    : 'bg-gray-100 text-gray-800'
+                                                ? 'bg-blue-100 text-blue-800'
+                                                : 'bg-gray-100 text-gray-800'
                                                 }`}>
                                                 {user.role}
                                             </span>

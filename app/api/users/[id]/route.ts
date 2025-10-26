@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { PrismaClient } from "@prisma/client";
-import { authOptions } from "../../auth/[...nextauth]/route"; // 👈 IMPORTANTE
+import { authOptions } from "../../auth/[...nextauth]/route"; // IMPORTANTE
 
 const prisma = new PrismaClient();
 
-// 🔹 Atualizar usuário (somente ADMIN)
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions); // 👈 Adiciona authOptions
+    const session = await getServerSession(authOptions);
 
     if (!session?.user || session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
@@ -44,13 +43,12 @@ export async function PUT(
   }
 }
 
-// 🔹 Excluir usuário (somente ADMIN)
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions); // 👈 Adiciona authOptions
+    const session = await getServerSession(authOptions);
 
     if (!session?.user || session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });

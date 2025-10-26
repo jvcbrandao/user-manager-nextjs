@@ -4,7 +4,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// 🔹 Criar usuário
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -54,7 +53,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// 🔹 Buscar todos os usuários
 export async function GET() {
   try {
     const users = await prisma.user.findMany({

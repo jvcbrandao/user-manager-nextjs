@@ -129,7 +129,6 @@ export default function Page() {
                     <input className="rounded border px-4 py-2 w-full bg-white" type="text" id="inputCidade" />
                 </div>
 
-                {/* Exibe os erros da senha */}
                 {errors.length > 0 && (
                     <ul className="text-red-500 text-sm list-disc list-inside">
                         {errors.map((err, i) => (
