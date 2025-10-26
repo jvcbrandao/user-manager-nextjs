@@ -57,7 +57,7 @@ next.config.ts
 ### 1️⃣ Clonar o repositório
 
 ```bash
-git clone https://github.com/jvcbrandao/user-manager.git
+git clone https://github.com/jvcbrandao/user-manager-nextjs.git
 cd user-manager
 ```
 
